@@ -13,22 +13,24 @@ class Auth {
         var_dump($userObj);
 
         if(property_exists($userObj,'id')){
-            if($userObj->password === md5($password . ENCRYPTION_SALT . $userObj->password_hash)){
-                return true;
+    // for the manual hash if($userObj->password === md5($password . ENCRYPTION_SALT . $userObj->password_hash)){
+             if(password_verify($password, $userObj->password)){
+                    return true;
             }
         }
-
-
     }
 
     function changeUserPassword($userObj, $newPassword){
         //random string
-        $tmp = date('YmdHis') . 'secret_string12312';
-        $hash = md5($tmp);
-        $hashedPassword  = md5($newPassword . ENCRYPTION_SALT . $hash);
+       //  $tmp = date('YmdHis') . 'secret_string12312';
+        //manual hash
+       // $hash = md5($tmp);
+       // $hashedPassword  = md5($newPassword . ENCRYPTION_SALT . $hash);
+        //  $userObj->password = $hashedPassword;
+        //   $userObj->password_hash = $hash;
 
-        $userObj->password = $hashedPassword;
-        $userObj->password_hash = $hash;
+
+       $userObj->password = password_hash($newPassword, PASSWORD_DEFAULT);;
         return $userObj;
     }
 }

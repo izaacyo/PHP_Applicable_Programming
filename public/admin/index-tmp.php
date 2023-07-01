@@ -11,13 +11,10 @@ define('ENCRYPTION_SALT', 'asdgnaisjbdgiabosnoasas12412as');
 
 
 
-require_once ROOT_PATH . 'src/Controller.php';
-require_once ROOT_PATH . 'src/Template.php';
+
 require_once ROOT_PATH . 'src/DatabaseConnection.php';
 require_once ROOT_PATH . 'src/Entity.php';
-require_once ROOT_PATH . 'src/Router.php';
 require_once ROOT_PATH . 'src/Auth.php';
-require_once MODULES_PATH . 'page/models/Page.php';
 require_once MODULES_PATH . 'user/models/User.php';
 
 
@@ -25,24 +22,14 @@ require_once MODULES_PATH . 'user/models/User.php';
 DatabaseConnection::connect('PhpTrack-db', 'darwin_cms', 'root', 'root');
 
 
-if(isset($_GET["module"])){
-    $section = $_GET['module'] ;
-} else if(isset($_POST["module"])) {
-    $section = $_POST['module'] ;
-}
-else {
-    $section = 'home';
-}
+$dbh = DatabaseConnection::getInstance();
+$dbc = $dbh->getConnection();
+$userObj = new User($dbc);
 
-$module = $_GET['module'] ?? $_POST['module'] ?? 'dashboard';
-$action = $_GET['action'] ?? $_POST['action'] ?? 'default';
+$userObj->findBy('username', 'admin');
 
+$authObj = new Auth();
+$userObj = $authObj->changeUserPassword($userObj, 'TopSecret');
 
+var_dump($userObj);
 
-   if($module == 'dashboard'){
-    include MODULES_PATH . 'dashboard/admin/controllers/DashboardController.php';
-
-       $DashboardController = new DashboardController();
-       $DashboardController->runAction($action);
-
-}

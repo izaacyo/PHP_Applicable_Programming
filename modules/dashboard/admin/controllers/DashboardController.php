@@ -12,7 +12,7 @@ class  DashboardController extends Controller {
         $action = $_GET['action'] ?? $_POST['action'] ?? 'default';
 
         if($action != 'login' ){
-            header('Location: /admin/index.php?module=dashboard&action=login');
+            header('Location: /public/admin/index.php?module=dashboard&action=login');
 
         } else {
             return true;
@@ -32,6 +32,14 @@ class  DashboardController extends Controller {
 
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
+
+            $auth = new Auth();
+            if($auth->checkLogin($username, $password)){
+
+                $_SESSION['is_admin'] = 1;
+                header('Location: /public/admin/index.php');
+                exit();
+            }
 
 
         }

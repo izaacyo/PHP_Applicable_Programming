@@ -19,16 +19,16 @@ class Auth {
     }
 
     function changeUserPassword($userObj, $newPassword){
-        //random string
-       //  $tmp = date('YmdHis') . 'secret_string12312';
-        //manual hash
-       // $hash = md5($tmp);
-       // $hashedPassword  = md5($newPassword . ENCRYPTION_SALT . $hash);
-        //  $userObj->password = $hashedPassword;
-        //   $userObj->password_hash = $hash;
+        // random string
+        // $tmp = date('YmdHis') . 'secret_string12312';
 
+        // manual hash
+        // $hash = md5($tmp);
+        // $hashedPassword  = md5($newPassword . ENCRYPTION_SALT . $hash);
+        // $userObj->password = $hashedPassword;
+        // $userObj->password_hash = $hash;
 
-       $userObj->password = password_hash($newPassword, PASSWORD_DEFAULT);;
+        $userObj->password = password_hash($newPassword, PASSWORD_DEFAULT);;
         return $userObj;
     }
 }

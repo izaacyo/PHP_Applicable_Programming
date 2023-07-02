@@ -10,8 +10,6 @@ class Auth {
         $userObj = new User($dbc);
         $userObj->findBy('username', $username);
 
-        var_dump($userObj);
-
         if(property_exists($userObj,'id')){
     // for the manual hash if($userObj->password === md5($password . ENCRYPTION_SALT . $userObj->password_hash)){
              if(password_verify($password, $userObj->password)){
